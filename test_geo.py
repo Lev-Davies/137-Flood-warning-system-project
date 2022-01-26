@@ -1,6 +1,8 @@
-from floodsystem.geo import station_by_distance
 from floodsystem.stationdata import build_station_list
+from floodsystem.geo import station_by_distance
 from floodsystem.geo import stations_within_radius
+from floodsystem.geo import rivers_with_station
+from floodsystem.geo import stations_by_river
 from haversine import haversine
 
 list = build_station_list() 
@@ -29,3 +31,19 @@ def test_distance():
     if 'Boscadjack' in in_distance:
         everything_good = False
     assert everything_good == True
+
+def test_alphabetical():
+    fingers_crossed = True
+    rivers = []
+    rivers = rivers_with_station(list)
+    c = [rivers[i] for i in range(len(rivers))]
+    c.sort()
+    for i in range(len(rivers)):
+        if (c[i] != rivers[i]):
+            fingers_crossed = False
+    assert fingers_crossed == True
+
+def test_call_two():
+    rivers_and_stations = []
+    rivers_and_stations = stations_by_river(list)
+
