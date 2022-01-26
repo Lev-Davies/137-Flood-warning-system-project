@@ -17,3 +17,11 @@ def station_by_distance(stations, p):
         tuple_data = [x for x in zip(*[iter(station_data)]*2)]
         tuple_data = sorted_by_key(tuple_data, 1)
     return tuple_data
+
+def stations_within_radius(stations, centre, r):
+    stations_in_range = []
+    for x in stations:
+        if haversine(x.coord, centre) < r:
+            stations_in_range.append(x.name)
+    return sorted(stations_in_range)
+    
