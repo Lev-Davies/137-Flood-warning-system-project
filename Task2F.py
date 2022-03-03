@@ -2,7 +2,7 @@ import datetime
 from floodsystem.stationdata import update_water_levels
 from floodsystem.datafetcher import fetch_measure_levels
 from floodsystem.stationdata import build_station_list
-from floodsystem.plot import plot_water_levels
+from floodsystem.plot import plot_water_level_with_fit
 from floodsystem.utils import sorted_by_key
 
 
@@ -15,18 +15,17 @@ def run():
             tuple_data.append([station.measure_id, station.latest_level])
     tuple_data = sorted_by_key(tuple_data, 1, reverse=True)
 
-    IDs = tuple_data[:5]
-    for i in range(len(IDs)):
-        dt = 10
-        dates, levels = fetch_measure_levels(IDs[i][0],
+    IDs = tuple_data[:6]
+    for idx in IDs:
+        dt = 2
+        dates, levels = fetch_measure_levels(idx[0],
                                              dt=datetime.timedelta(days=dt))
         for n in stations:
-            if n.measure_id == IDs[i][0]:
+            if n.measure_id == idx[0]:
                 station = n
-                plot_water_levels(station, dates, levels)
+                plot_water_level_with_fit(station, dates, levels, 4)
                 break
 
 
-if __name__ == "__main__":
-    print("*** Task 2E: CUED Part IA Flood Warning System ***")
+if __name__ == '__main__':
     run()
